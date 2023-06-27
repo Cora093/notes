@@ -114,7 +114,7 @@
        private UserMapper userMapper;
    
        @Test
-       public void selectList() {
+       public void testSelectList() {
            List<User> userList = userMapper.selectList(null);
            for (User user: userList) {
                log.info("输出{}", user);
@@ -127,7 +127,67 @@
 
 ### 基本功能测试
 
-1. 查询
+1. 新增功能测试
+
+   ```java
+       @Test
+       public void testInsert() {
+           User user = new User();
+           user.setAge(22);
+           user.setName("老王");
+           user.setEmail("abcdefg@qq.com");
+   
+           int res = userMapper.insert(user);
+           log.info("result:{}",res);
+           log.info("id:{}",user.getId());
+       }
+   ```
+
+   ![image-20230627225840909](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230627225840909.png)
+
+2. 删除功能测试
+
+   ```java
+       //根据id删除    
+   	@Test
+       public void testDeleteById() {
+           Long targetId = 1673707101237141506L;
+           int res = userMapper.deleteById(targetId);
+           log.info("res:{}", res);
+       }
+   ```
+
+   ![image-20230627231524956](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230627231524956.png)
+
+   ```java
+       //根据Map中的条件删除
+   	@Test
+       public void testDeleteByMap() {
+           Map<String, Object> map = new HashMap<>();
+           map.put("name", "张三");
+           map.put("age", 23);
+           int res = userMapper.deleteByMap(map);
+           log.info("res:{}", res);
+       }
+   ```
+
+   ![image-20230627232022945](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230627232022945.png)
+
+   ```java
+       //根据集合中的id删除
+       @Test
+       public void testDeleteBatchIds() {
+           ArrayList<Long> idList = new ArrayList<>();
+           idList.add(4L);
+           idList.add(1673713569113841666L);
+           int res = userMapper.deleteBatchIds(idList);
+           log.info("res:{}", res);
+       }
+   ```
+
+   ![image-20230627232617747](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230627232617747.png)
+
+3. 
 
 
 
