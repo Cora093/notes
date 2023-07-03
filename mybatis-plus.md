@@ -1,6 +1,6 @@
 ## mybatis-plus笔记
 
-
+https://www.bilibili.com/video/BV12R4y157Be
 
 ### 环境准备
 
@@ -60,7 +60,7 @@
        type: com.zaxxer.hikari.HikariDataSource
        #数据库的连接信息
        driver-class-name: com.mysql.cj.jdbc.Driver
-       url: jdbc:mysql://localhost:3306/mybatis_plus?characterEncoding=utf-8&useSSL=false
+       url: jdbc:mysql://localhost:3306/mybatis_plus_demo?characterEncoding=utf-8&useSSL=false
        username: root
        password: 
    mybatis-plus:
@@ -125,7 +125,7 @@
 
    ![image-20230627223124980](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230627223124980.png)
 
-### 基本功能测试
+### BaseMapper基本功能测试
 
 1. 新增功能测试
 
@@ -174,7 +174,7 @@
    ![image-20230627232022945](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230627232022945.png)
 
    ```java
-       //根据集合中的id删除
+       //根据集合中的id批量删除
        @Test
        public void testDeleteBatchIds() {
            ArrayList<Long> idList = new ArrayList<>();
@@ -187,7 +187,126 @@
 
    ![image-20230627232617747](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230627232617747.png)
 
-3. 
+3. 修改功能测试
+
+   ```java
+       //根据ID修改
+       @Test
+       public void testUpdateById(){
+           User user = new User();
+           user.setId(8L);
+           user.setName("Cora");
+           user.setEmail("99999@abc.com");
+           int res = userMapper.updateById(user);
+           System.out.println(res);
+       }
+   ```
+
+   ![image-20230703163117694](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230703163117694.png)
+
+4. 查询功能测试
+
+   ```java
+       @Test
+       public void testSelect() {
+           //根据ID查
+   //        User user = userMapper.selectById(1L);
+   //        System.out.println(user);
+   
+           //根据ID批量查
+   //        List<Long> list = Arrays.asList(1L, 2L, 8L);
+   //        List<User> users = userMapper.selectBatchIds(list);
+   //        users.forEach(System.out::println);
+   
+           //根据map中的条件查
+   //        HashMap<String, Object> map = new HashMap<>();
+   //        map.put("name", "Tom");
+   //        map.put("age", 28);
+   //        List<User> users = userMapper.selectByMap(map);
+   //        users.forEach(System.out::println);
+   
+           //查询所有数据
+           List<User> users = userMapper.selectList(null);
+           users.forEach(System.out::println);
+   
+       }
+   ```
+
+   ![image-20230703164445014](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230703164445014.png)
+
+   同样支持自定义方法、xml文件映射
 
 
+
+### IService基本功能测试
+
+1. 准备
+
+   1. 创建Service接口继承IService
+
+   2. 创建Service实现类 继承ServiceImpl类 实现Service接口
+
+      ```java
+      public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {}
+      ```
+
+2. ```java
+       //测试查询总记录数
+       @Test
+       public void testCount() {
+           long count = userService.count();
+           log.info("查询到{}条记录", count);
+       }
+   ```
+
+   ![image-20230703171007232](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230703171007232.png)
+
+3. ```java
+       //测试批量添加
+       @Test
+       public void testSaveBatch() {
+           ArrayList<User> list = new ArrayList<>();
+           for (int i = 0; i < 5; i++) {
+               User user = new User();
+               user.setName("Cora" + i);
+               user.setAge(20 + i);
+               list.add(user);
+           }
+           boolean res = userService.saveBatch(list);
+           log.info("返回值为{}", res);
+       }
+   ```
+
+   ![image-20230703171755043](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230703171755043.png)
+
+### 常用注解
+
+- 问题：实体类名和数据库表名不一致
+  2种解决方法
+
+  1. 在实体类加注解@Tablename("表名")
+  2. 在yml配置文件中全局配置
+     ![image-20230703172833732](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230703172833732.png)
+
+- 问题：主键字段不为id/主键名和列名不一致/使用主键递增替代雪花算法
+
+  - 为主键加注解@TableId 标记为主键
+
+  - value值设置为列名
+
+  - type值设置为`IdType.AUTO`
+    ![image-20230703174215972](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230703174215972.png)
+
+    ![image-20230703174342633](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230703174342633.png)
+
+- 全局配置主键生成策略
+  ![image-20230703174559457](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230703174559457.png)
+
+- 问题：字段名和列名不一致
+  同理 使用@TableField("字段名")
+
+- @TableLogic 表示字段为逻辑删除
+  添加该注解之后，删除操作和查询操作会自动改变
+
+- 
 
