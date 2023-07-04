@@ -543,7 +543,77 @@ https://www.bilibili.com/video/BV12R4y157Be
 
 ### 插件
 
+1. 分页插件
 
+   ```java
+   //配置文件
+   @Configuration
+   @MapperScan("com.example.mybatisplusdemo.mapper")
+   public class MybatisPlusConfig {
+   
+       @Bean
+       public MybatisPlusInterceptor mybatisPlusInterceptor() {
+           MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+           interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+           return interceptor;
+       }
+   
+   }
+   ```
+
+   ```java
+   @SpringBootTest
+   public class PluginsTest {
+   
+       @Resource
+       private UserMapper userMapper;
+   
+       //测试分页插件的简单用法
+       @Test
+       public void testPage() {
+           Page<User> userPage = new Page<>(3, 3);
+           userMapper.selectPage(userPage, null);
+           System.out.println(userPage.getRecords());
+           System.out.println(userPage.getPages());
+           System.out.println(userPage.getTotal());
+           System.out.println(userPage.hasNext());
+           System.out.println(userPage.hasPrevious());
+       }
+   }
+   ```
+
+   ![image-20230704132934758](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704132934758.png)
+
+   ```java
+   //test
+   //测试自定义分页功能
+   @Test
+   public void testPageByAge() {
+       Page<User> userPage = new Page<>(2, 2);
+       System.out.println(userMapper.selectPageByAge(userPage, 22).getRecords());
+       System.out.println("总条数：" + userPage.getTotal());
+   }
+   
+   //mapper
+   /**
+    * 分页查询年龄>age的用户
+    * @param page
+    * @param age
+    * @return
+    */
+   Page<User> selectPageByAge(@Param("page") Page<User> page, @Param("age") Integer age);
+   
+   //xml
+   //注意resultType 要在yml文件中配置包名
+   <select id="selectPageByAge" resultType="User">
+       select name, age, email
+       from mybatis_plus_demo.user
+       where age > #{age}
+   </select>
+   
+   ```
+
+   
 
 
 
