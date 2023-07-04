@@ -613,7 +613,60 @@ https://www.bilibili.com/video/BV12R4y157Be
    
    ```
 
+2. 乐观锁插件
+
+   - 在配置文件中添加插件
+   - 添加version字段和@Version注解
+
+### 通用枚举
+
+1. 在实体类和数据库中添加字段
+
+2. 创建枚举类 添加注解
+
+   ```java
+   @Getter
+   public enum SexEnum {
+       FEMALE(0, "女"),
+       MALE(1, "男");
    
+       @EnumValue
+       private Integer sex;
+       private String sexName;
+   
+       SexEnum(Integer sex, String sexName) {
+           this.sex = sex;
+           this.sexName = sexName;
+       }
+   }
+   ```
+
+3. 添加yml配置
+
+   ```yaml
+   #扫描通用枚举的包
+   type-enums-package: com.example.mybatisplusdemo.enums
+   ```
+
+4. 测试成功
+
+   ```java
+       @Test
+       void test() {
+           User user = new User();
+           user.setName("测试枚举");
+   		user.setAge(23);
+           user.setSex(SexEnum.MALE);
+           int res = userMapper.insert(user);
+           System.out.println("res:" + res);
+       }
+   ```
+
+
+
+### MybatisX快速生成crud
+
+
 
 
 
