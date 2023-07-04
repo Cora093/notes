@@ -308,5 +308,244 @@ https://www.bilibili.com/video/BV12R4y157Be
 - @TableLogic 表示字段为逻辑删除
   添加该注解之后，删除操作和查询操作会自动改变
 
-- 
+### 条件构造器wapper
+
+![image-20230704100008357](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704100008357.png)
+
+1. 组装查询条件
+
+   ```java
+       @Test
+       public void test1() {
+           // 查询用户名包含a,年龄在20-30之间，邮箱信息不为null的用户信息
+           QueryWrapper<User> wrapper = new QueryWrapper<>();
+           wrapper.like("name", "a")
+                   .between("age", 20, 30)
+                   .isNotNull("email");
+           List<User> users = userMapper.selectList(wrapper);
+           users.forEach(System.out::println);
+       }
+   ```
+
+   ![image-20230704101109973](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704101109973.png)
+
+2. 组装排序条件
+
+   ```java
+       @Test
+       public void test2() {
+           //查询用户信息，按照年龄的降序排序，若年龄相同，刚按照id升序排序
+           QueryWrapper<User> wrapper = new QueryWrapper<>();
+           wrapper.orderByDesc("age")
+                   .orderByAsc("id");
+           List<User> users = userMapper.selectList(wrapper);
+           users.forEach(System.out::println);
+       }
+   ```
+
+   ![image-20230704102037789](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704102037789.png)
+
+3. 组装删除条件
+
+   ```java
+       @Test
+       public void test3() {
+           //删除邮箱为aaa@aaa.com的信息
+           QueryWrapper<User> wrapper = new QueryWrapper<>();
+           wrapper.eq("email", "aaa@aaa.com");
+           int res = userMapper.delete(wrapper);
+           System.out.println(res);
+       }
+   ```
+
+   ![image-20230704102732565](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704102732565.png)
+
+4. 条件修改
+
+   ```java
+       @Test
+       public void test4() {
+           //将（年龄大于20并且用户名中包含有a）或邮箱null的用户信息修改
+           QueryWrapper<User> wrapper = new QueryWrapper<>();
+           wrapper.gt("age", 20)
+                   .like("name", "a")
+                   .or()
+                   .isNull("email");
+   
+           User user = new User();
+           user.setEmail("test4@test.com");
+   
+           int res = userMapper.update(user, wrapper);
+           System.out.println(res);
+       }
+   ```
+
+   ![](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704103630859.png)
+
+   ```java
+       @Test
+       public void test5() {
+           //将用户名中包含有a并且（年龄大于20或邮箱为null)的用户信息修改
+           //lambda表达式中的条件优先执行
+           QueryWrapper<User> wrapper = new QueryWrapper<>();
+           wrapper.like("name", "a")
+                   .and(i -> i.gt("age", 20).or().isNull("email"));
+   
+           User user = new User();
+           user.setEmail("test5@test.com");
+   
+           int res = userMapper.update(user, wrapper);
+           System.out.println(res);
+       }
+   ```
+
+   ![image-20230704104741723](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704104741723.png)
+
+5. 查询指定字段
+
+   ```java
+       @Test
+       public void test6() {
+           //查询年龄==20的id, name信息
+           QueryWrapper<User> wrapper = new QueryWrapper<>();
+           wrapper.select("id", "name")
+                   .eq("age", 20);
+           List<Map<String, Object>> maps = userMapper.selectMaps(wrapper);
+           System.out.println(maps);
+       }
+   ```
+
+   ![image-20230704105445032](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704105445032.png)
+
+6. QueryWrapper实现子查询
+
+   ```java
+       @Test
+       public void test7() {
+           //QueryWrapper实现子查询
+           QueryWrapper<User> wrapper = new QueryWrapper<>();
+           wrapper.like("name", "J")
+                   .inSql("age", "select age from user where age < 22");
+           List<User> users = userMapper.selectList(wrapper);
+           users.forEach(System.out::println);
+       }
+   ```
+
+   ![image-20230704110311939](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704110311939.png)
+
+7. UpdateWrapper实现修改
+
+   ```java
+       @Test
+       public void test8() {
+           //UpdateWrapper实现修改
+           //修改用户名包含J且年龄小于22的 邮箱
+           UpdateWrapper<User> wrapper = new UpdateWrapper<>();
+           wrapper.set("email", "test8@test.com")
+                   .like("name", "J")
+                   .lt("age", 22);
+           int res = userMapper.update(null, wrapper);
+           System.out.println(res);
+       }
+   ```
+
+   ![image-20230704111101271](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704111101271.png)
+
+8. 模拟开发中组装条件
+
+   ```java
+       @Test
+       public void test9() {
+           //模拟开发中组装条件
+           String userName = "";
+           Integer beginAge = 20;
+           Integer endAge = 22;
+   
+           QueryWrapper<User> wrapper = new QueryWrapper<>();
+           if(StringUtils.isNotBlank(userName)) {
+               wrapper.like("name", userName);
+           }
+           if(beginAge != null){
+               wrapper.ge("age", beginAge);
+           }
+           if(endAge != null) {
+               wrapper.le("age", endAge);
+           }
+           List<User> users = userMapper.selectList(wrapper);
+           users.forEach(System.out::println);
+       }
+   ```
+
+   ![image-20230704112153500](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704112153500.png)
+
+   优化：使用condition组装条件
+
+   ```java
+       @Test
+       public void test10() {
+           //模拟开发中组装条件 condition优化
+           String userName = "";
+           Integer beginAge = 20;
+           Integer endAge = 22;
+   
+           QueryWrapper<User> wrapper = new QueryWrapper<>();
+           wrapper.like(StringUtils.isNotBlank(userName), "name", userName)
+                   .ge(beginAge != null, "age", beginAge)
+                   .le(endAge != null, "age", endAge);
+   
+           List<User> users = userMapper.selectList(wrapper);
+           users.forEach(System.out::println);
+       }
+   ```
+
+   ![image-20230704112716283](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704112716283.png)
+
+9. LambdaQueryWrapper 的使用
+
+   ```java
+       @Test
+       public void test11() {
+           //LambdaQueryWrapper 的使用
+           String userName = "";
+           Integer beginAge = 20;
+           Integer endAge = 22;
+   
+           LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+           wrapper.like(StringUtils.isNotBlank(userName), User::getName, userName)
+                   .ge(beginAge != null, User::getAge, beginAge)
+                   .le(endAge != null, User::getAge, endAge);
+   
+           List<User> users = userMapper.selectList(wrapper);
+           users.forEach(System.out::println);
+       }
+   ```
+
+   效果相同，可以防止写错字段名
+
+10. LambdaUpdateWrapper 的使用 同理
+
+    ```java
+        @Test
+        public void test12() {
+            //LambdaUpdateWrapper 的使用
+            // 修改用户名包含J且年龄小于22的 邮箱
+            LambdaUpdateWrapper<User> wrapper = new LambdaUpdateWrapper<>();
+            wrapper.set(User::getEmail, "test12@test.com")
+                    .like(User::getName, "J")
+                    .lt(User::getAge, 22);
+            int res = userMapper.update(null, wrapper);
+            System.out.println(res);
+    
+        }
+    ```
+
+    ![image-20230704114328758](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230704114328758.png)
+
+### 插件
+
+
+
+
+
+
 
