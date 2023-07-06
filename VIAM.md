@@ -47,7 +47,7 @@
    1. 验证旧密码是否正确
    2. 验证新密码不能和旧密码相同
    3. 删除token
-   4. 设置新密码 ~~加密？~~
+   4. 设置新密码 **加密？**
    5. 设置为不需要修改密码
    6. 更新到数据库
 
@@ -62,5 +62,13 @@
    ![image-20230706113611802](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230706113611802.png)
    通过lombok提供的@RequiredArgsConstructor注解，生成构造器，使Spring框架自动注入对象，而不用使用@Resource或@Autowired注解
 
-10. 
+10. **bo类和实体类**
+
+### 日志管理
+
+1. 
+
+### 角色管理
+
+1. 
 
