@@ -47,8 +47,8 @@
    1. 验证旧密码是否正确
    2. 验证新密码不能和旧密码相同
    3. 删除token
-   4. 设置新密码 **加密？**
-   5. 设置为不需要修改密码
+   4. 设置新密码 密码在前端就进行加密
+   4. 设置为不需要修改密码
    6. 更新到数据库
 
 8. 修改用户角色
@@ -60,15 +60,18 @@
 
 9. 构造器注入对象
    ![image-20230706113611802](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230706113611802.png)
-   通过lombok提供的@RequiredArgsConstructor注解，生成构造器，使Spring框架自动注入对象，而不用使用@Resource或@Autowired注解
-
-10. **bo类和实体类**
+   通过lombok提供的@RequiredArgsConstructor注解，生成构造器，使Spring框架自动注入final对象，而不用使用@Resource或@Autowired注解
 
 ### 日志管理
 
-1. 
-
-### 角色管理
-
-1. 
+1. 通过自定义的`@HttpRequestLog`注解 + aop 来生成日志
+   `HttpRequestLogAspect.java`
+2. 计算请求处理时间：
+   1. `@Pointcut`在所有请求方法上加切点
+   2. `@Before`在`ThreadLocal<Long>`中设置时间戳
+   3. `@After`移除`ThreadLocal`
+   4. 请求返回时：当前时间戳 - `ThreadLocal`中的时间戳 = 请求处理时间
+3. 获取当前用户
+   在多处都需要使用 封装为静态工具类`ViamCommonUtils`
+   spring security 中通过上下文获取
 
