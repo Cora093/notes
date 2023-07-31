@@ -63,7 +63,7 @@ logout				注销
 useradd cora		添加用户
 passwd cora		添加密码
 userdel cora		删除用户 但保留目录（需要root权限)
-userdel -r cora 	连目录一起删除 注意！
+userdel -r cora 	连目录一起删除 注意！（需要root权限)
 id cora 				查询用户信息
 whoami/who am i 查看当前用户
 groupadd group1 新增组
