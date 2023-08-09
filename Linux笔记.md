@@ -206,6 +206,15 @@ crontab命令 设置定时任务 使用cron表达式
 
 
 
+### at定时任务
+
+一次性的定时任务
+![image-20230809172502974](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230809172502974.png)
+
+
+
+## Linux磁盘分区、挂载
+
 
 
 
