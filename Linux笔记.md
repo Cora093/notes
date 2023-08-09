@@ -169,6 +169,43 @@ tar 打包
 
 ## 组管理和权限管理
 
+### 组的概念
+
+linux中每个用户都属于一个用户组
+
+### 文件权限划分
+
+- 所有者
+  所有者一般是文件的创建者，修改文件所有者的指令:chown
+- 所在组
+  查看文件所在组:ll
+  修改文件所在组:chgrp 组名 文件名
+- 其他组
+
+### Linux中的权限管理
+
+![image-20230809145802082](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230809145802082.png)
+
+![image-20230809150243945](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230809150243945.png)
+
+chmod修改权限
+![image-20230809150915766](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230809150915766.png)
+
+![image-20230809152911730](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230809152911730.png)
+
+<img src="https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230809155132228.png" alt="image-20230809155132228" style="zoom:50%;" />
+
+
+
+## 定时任务调度
+
+### crond任务调度
+
+crontab命令 设置定时任务 使用cron表达式
+![image-20230809155900847](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230809155900847.png)
+
+
+
 
 
 
