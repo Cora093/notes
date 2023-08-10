@@ -215,13 +215,49 @@ crontab命令 设置定时任务 使用cron表达式
 
 ## Linux磁盘分区、挂载
 
+### 原理
+
+![image-20230810103444067](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230810103444067.png)
+
+一个硬盘分区 **挂载** 到一个目录下
+
+![image-20230810103530952](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230810103530952.png)
+
+### 常用命令
+
+lsblk:查看当前硬盘分区挂载情况
+
+du:查看目录使用情况
+
+tree:树状显示
 
 
 
+## Linux网络配置
 
+### 虚拟机的NAT网络配置原理
 
+![image-20230810111705466](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230810111705466.png)
 
+### 自动分配ip和指定ip
 
+自动分配：避免ip冲突，但ip地址不固定
+指定ip：ip固定
+
+### 修改为指定ip
+
+1. linux虚拟机修改配置文件
+2. VMware设置修改
+
+### linux虚拟机设置主机名
+
+![image-20230810135734952](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230810135734952.png)
+
+<img src="https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230810135913477.png" alt="image-20230810135913477" style="zoom: 50%;" />
+
+设置hosts映射之后，能通过主机名找到某个地址
+
+![image-20230810140332435](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230810140332435.png)
 
 
 
