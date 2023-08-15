@@ -261,11 +261,78 @@ tree:树状显示
 
 
 
+## Linux进程相关
+
+### 进程相关指令
+
+ps指令查看进程
+常用：ps -ef | grep
+
+![image-20230815152514227](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815152514227.png)
+
+杀死进程 kill -9 进程号
+
+
+### 服务相关指令
+
+![image-20230815153536833](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815153536833.png)
+
+systemctl指令
+
+![image-20230815161432950](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815161432950.png)
+
+防火墙进行端口管理
+
+![image-20230815162331341](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815162331341.png)
+
+top指令动态监控进程
+
+![image-20230815162646094](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815162646094.png)
+
+netstat监控网络状态
+![image-20230815163319956](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815163319956.png)
 
 
 
+## RPM和YUM
+
+### rpm
+
+rpm包的概念
+
+简单查询
+
+![image-20230815165405815](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815165405815.png)
+
+rpm包的卸载 安装
+
+![image-20230815165751273](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815165751273.png)
+
+![image-20230815165931684](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815165931684.png)
 
 
+
+### yum
+
+![image-20230815170148727](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815170148727.png)
+
+ 
+
+## shell编程
+
+### shell的概念
+
+![image-20230815171319969](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815171319969.png)
+
+### shell的执行方式
+
+![image-20230815172016468](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815172016468.png)
+
+### shell变量
+
+![image-20230815173209342](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815173209342.png)
+
+![image-20230815173313420](https://cora-typora-test-2023.oss-cn-shanghai.aliyuncs.com/pics/image-20230815173313420.png)
 
 
 
