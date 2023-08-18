@@ -52,7 +52,7 @@
      打包构建，跳过测试
      mvn package -DskipTests
      
-     java -jar ./user-center-backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+     nohup java -jar ./user-center-backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &
      ```
 
 2. 宝塔
