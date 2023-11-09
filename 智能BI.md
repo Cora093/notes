@@ -33,7 +33,7 @@ https://chartcube.alipay.com/
 1. 智能分析，自动生成图表和结论
 2. 图表管理
 3. 异步化图表生成（消息队列）
-4. AI切换？自定义优化？
+4. 扩展：AI切换/自定义优化
 
 
 
@@ -56,8 +56,6 @@ https://chartcube.alipay.com/
 
 
 
-TODO 设计数据库表
-索引添加
 
 ### 数据库表设计
 
@@ -65,19 +63,45 @@ TODO 设计数据库表
 -- 用户表
 create table if not exists fastbi.user
 (
-    id           bigint auto_increment comment 'id'
+    id            bigint auto_increment comment 'id'
         primary key,
-    userAccount  varchar(256)                           not null comment '账号',
-    userPassword varchar(512)                           not null comment '密码',
-    userName     varchar(256)                           null comment '用户昵称',
-    userAvatar   varchar(1024)                          null comment '用户头像',
-    userRole     varchar(256) default 'user'            not null comment '用户角色：user/admin',
-    createTime   datetime     default CURRENT_TIMESTAMP not null comment '创建时间',
-    updateTime   datetime     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
-    isDelete     tinyint      default 0                 not null comment '是否删除'
+    user_account  varchar(256)                           not null comment '账号',
+    user_password varchar(512)                           not null comment '密码',
+    user_name     varchar(256)                           null comment '用户昵称',
+    user_avatar   varchar(1024)                          null comment '用户头像',
+    user_role     varchar(256) default 'user'            not null comment '用户角色：user/admin',
+    create_time   datetime     default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time   datetime     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    is_delete     tinyint      default 0                 not null comment '是否删除'
 )
     comment '用户' collate = utf8mb4_unicode_ci;
 
-create index user_userAccount_index
-    on fastbi.user (userAccount);
+create index user_user_account_index
+    on fastbi.user (user_account);
+
+
 ```
+
+
+
+``` SQL
+-- 图表信息表
+create table if not exists fastbi.chart
+(
+    id              bigint auto_increment comment 'id'
+        primary key,
+    goal            text                               null comment '任务分析目标',
+    origin_data     text                               null comment '原始输入数据',
+    chart_type      varchar(128)                       null comment '图表类型',
+    generate_chart  text                               null comment '生成的图表数据',
+    generate_result text                               null comment '生成的分析结论',
+    create_time     datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time     datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    is_delete       tinyint  default 0                 not null comment '是否删除'
+)
+    comment '图表信息表' collate = utf8mb4_unicode_ci;
+```
+
+
+
+TODO 生成增删改查
