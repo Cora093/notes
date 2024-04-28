@@ -230,3 +230,10 @@ location ^~ /api/ {
 
 3. 定义新的 corsFilter Bean，参考：https://www.jianshu.com/p/b02099a435bd
 
+
+
+
+
+### 无法注入Bean
+
+检查包是否建错了（扫描不到）
